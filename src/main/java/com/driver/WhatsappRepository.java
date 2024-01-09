@@ -107,11 +107,11 @@ public class WhatsappRepository {
     }
 
     public String changeAdmin(User approver, User user, Group group) {
-        if (!groupUserMap.containsKey(group)) {
+        if (!groupUserMap.containsKey(group) || !adminMap.containsKey(group)) {
             return "groupdoesnotexit";
         }
         List<User> users = groupUserMap.get(group);
-        if (!users.contains(user)) {
+        if (users.size()==0 || !users.contains(user)) {
             return "notaparticipant";
         }
         User admin = adminMap.get(group);
