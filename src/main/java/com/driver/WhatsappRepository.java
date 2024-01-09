@@ -106,7 +106,7 @@ public class WhatsappRepository {
         }
         adminMap.put(group, user);
 
-        return null;
+        return "SUCCESS";
     }
 
 }
