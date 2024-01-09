@@ -43,38 +43,24 @@ public class WhatsappRepository {
     }
 
     public Group createGroup(List<User> users) {
-        HashSet<String> set = new HashSet<>();
-        for (User user : users) {
-            if (!userHashMap.containsKey(user.getMobile())) {
-                userHashMap.put(user.getMobile(), new User(user.getName(), user.getMobile()));
-                userMobile.add(user.getMobile());
 
-                // if he's not a user -- might have to return . Let's see
-            }
-            set.add(user.getMobile());
+        // Personal chat
+        if (users.size() == 2) {
+            User admin = users.get(0);
+            String adminName = admin.getName();
+            Group personalChat = new Group(users.get(1).getName(), 2);
+            adminMap.put(personalChat, admin);
+            groupUserMap.put(personalChat, users);
+            return personalChat;
+        } else {
+            customGroupCount++;
+            Group newGroup = new Group("Group " + customGroupCount, users.size());
+            User admin = users.get(0);
+            String adminName = admin.getName();
+            adminMap.put(newGroup, admin);
+            groupUserMap.put(newGroup, users);
+            return newGroup;
         }
-        if (set.size() >= 2) {
-            if (set.size() == 2) {
-                // Personal chat
-                User admin = users.get(0);
-                String adminName = admin.getName();
-                Group personalChat = new Group(users.get(1).getName(), 2);
-                adminMap.put(personalChat, admin);
-                groupUserMap.put(personalChat, users);
-                return personalChat;
-
-            } else {
-                customGroupCount++;
-                Group newGroup = new Group("Group " + customGroupCount, users.size());
-                User admin = users.get(0);
-                String adminName = admin.getName();
-                adminMap.put(newGroup, admin);
-                groupUserMap.put(newGroup, users);
-                return newGroup;
-            }
-        }
-
-        return null;
     }
 
     public int createMessage(String content) {
@@ -111,7 +97,7 @@ public class WhatsappRepository {
             return "groupdoesnotexit";
         }
         List<User> users = groupUserMap.get(group);
-        if (users.size()==0 || !users.contains(user)) {
+        if (users.size() == 0 || !users.contains(user)) {
             return "notaparticipant";
         }
         User admin = adminMap.get(group);

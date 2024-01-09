@@ -92,15 +92,13 @@ public class WhatsappController {
         // one time there is only one admin and the admin rights are transferred from
         // approver to user.
 
-        String result= whatsappService.changeAdmin(approver, user, group);
-        if(result.equals("groupdoesnotexit")){
+        String result = whatsappService.changeAdmin(approver, user, group);
+        if (result.equals("groupdoesnotexit")) {
             throw new GroupDoesNotExistException("Group does not exist");
-        }
-        else if(result.equals("insufficientrights")){
+        } else if (result.equals("insufficientrights")) {
             throw new InsufficientrightsException("Approver does not have rights");
-        }
-        else if(result.equals("notaparticipant")){
-             throw new InvalidMemberException("User is not a participant");
+        } else if (result.equals("notaparticipant")) {
+            throw new InvalidMemberException("User is not a participant");
         }
         return "SUCCESS";
     }
@@ -118,7 +116,7 @@ public class WhatsappController {
         // group + the updated number of messages in group + the updated number of
         // overall messages)
         return 0;
-        //return whatsappService.removeUser(user);
+        // return whatsappService.removeUser(user);
     }
 
     @GetMapping("/find-messages")
@@ -128,6 +126,6 @@ public class WhatsappController {
         // If the number of messages between given time is less than K, throw "K is
         // greater than the number of messages" exception
         return "";
-       // return whatsappService.findMessage(start, end, K);
+        // return whatsappService.findMessage(start, end, K);
     }
 }
